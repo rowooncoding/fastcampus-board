@@ -43,7 +43,7 @@ public class PostController {
     // 게시물 생성
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody PostPostRequestBody postPostRequestBody) {
-        Post post = postService.createPost(postPostRequestBody);
+        var post = postService.createPost(postPostRequestBody);
         return ResponseEntity.ok(post);
     }
 }
