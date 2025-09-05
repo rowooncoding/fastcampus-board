@@ -23,7 +23,7 @@ public class PostController {
     // 게시글 여러건 조회
     @GetMapping
     public ResponseEntity<List<Post>> getPosts() {
-        List<Post> posts = postService.getPosts();
+        var posts = postService.getPosts();
 
         return ResponseEntity.ok(posts);
     }

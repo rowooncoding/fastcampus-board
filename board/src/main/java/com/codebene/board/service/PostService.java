@@ -29,14 +29,14 @@ public class PostService {
     // post 식별자로 게시글 단건 조회
     public Optional<Post> getPostByPostId(Long postId) {
         return posts.stream()
-                .filter(post -> postId.equals(post.getPostId()))
+                .filter(post -> postId.equals(post.postId()))
                 .findFirst();
     }
 
     public Post createPost(PostPostRequestBody postPostRequestBody) {
-        Long newPostId = posts.stream().mapToLong(Post::getPostId).max().orElse(0L) + 1;
+        var newPostId = posts.stream().mapToLong(Post::postId).max().orElse(0L) + 1;
 
-        Post newPost = new Post(newPostId, postPostRequestBody.body(), ZonedDateTime.now());
+        var newPost = new Post(newPostId, postPostRequestBody.body(), ZonedDateTime.now());
         posts.add(newPost);
 
         return newPost;
