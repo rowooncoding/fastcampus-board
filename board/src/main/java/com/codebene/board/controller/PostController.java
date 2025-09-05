@@ -1,6 +1,7 @@
 package com.codebene.board.controller;
 
 import com.codebene.board.model.Post;
+import com.codebene.board.model.PostPatchRequestBody;
 import com.codebene.board.model.PostPostRequestBody;
 import com.codebene.board.service.PostService;
 
@@ -44,6 +45,14 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody PostPostRequestBody postPostRequestBody) {
         var post = postService.createPost(postPostRequestBody);
+        return ResponseEntity.ok(post);
+    }
+
+    // 게시물 수정
+    @PatchMapping("/{postId}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody PostPatchRequestBody postPatchRequestBody) {
+
+        var post = postService.updatePost(postId, postPatchRequestBody);
         return ResponseEntity.ok(post);
     }
 }
