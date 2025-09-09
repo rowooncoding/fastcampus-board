@@ -1,5 +1,6 @@
 package com.codebene.board.service;
 
+import com.codebene.board.exception.post.PostNotFoundException;
 import com.codebene.board.model.Post;
 import com.codebene.board.model.PostPatchRequestBody;
 import com.codebene.board.model.PostPostRequestBody;
@@ -33,7 +34,7 @@ public class PostService {
         PostEntity postEntity = postEntityRepository
                 .findById(postId)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found.")
+                        () -> new PostNotFoundException(postId)
                 );
 
         return Post.from(postEntity);
@@ -53,7 +54,7 @@ public class PostService {
         PostEntity postEntity = postEntityRepository
                 .findById(postId)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found."));
+                        () -> new PostNotFoundException(postId));
 
         postEntity.setBody(postPatchRequestBody.body());
         PostEntity updatedPostEntity = postEntityRepository.save(postEntity);
@@ -64,7 +65,7 @@ public class PostService {
         PostEntity postEntity = postEntityRepository
                 .findById(postId)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found."));
+                        () -> new PostNotFoundException(postId));
 
         postEntityRepository.delete(postEntity);
     }
