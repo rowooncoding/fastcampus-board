@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -33,12 +32,10 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPostByPostId(@PathVariable Long postId) {
 
-        Optional<Post> matchingPost = postService.getPostByPostId(postId);
+        Post post = postService.getPostByPostId(postId);
 
         // 존재하면 응답
-        return matchingPost
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(post);
     }
 
     // 게시물 생성

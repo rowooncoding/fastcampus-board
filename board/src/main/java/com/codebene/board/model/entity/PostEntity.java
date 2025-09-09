@@ -11,8 +11,8 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "post")
 @Getter @Setter
-@SQLDelete(sql = "UPDATE \"post\" SET deleteddatetime = CURRENT_TIMESTAMP WHERE postid = ?")
-@SQLRestriction("deleteddatetime IS NULL")
+@SQLDelete(sql = "UPDATE post SET deleted_date_time = CURRENT_TIMESTAMP WHERE post_id = ?")
+@SQLRestriction("deleted_date_time IS NULL")
 public class PostEntity {
 
     @Id
@@ -30,4 +30,18 @@ public class PostEntity {
 
     @Column
     private ZonedDateTime deletedDateTime;
+
+    // 저장 전처리
+    @PrePersist
+    private void prePersist() {
+        this.createdDateTime = ZonedDateTime.now();
+        this.updatedDateTime = this.createdDateTime;
+    }
+
+
+    // 수정 전처리
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedDateTime = ZonedDateTime.now();
+    }
 }
