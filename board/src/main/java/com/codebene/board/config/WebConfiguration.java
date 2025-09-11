@@ -3,6 +3,7 @@ package com.codebene.board.config;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -45,7 +46,11 @@ public class WebConfiguration {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
-                .authorizeHttpRequests((requests) -> requests.anyRequest().authenticated()) // 모든 request에 대해서 인증처리
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()) // 로그인, 회원가입 창을 제외한 나머지 창에서는 인증/인가 사용
                 .sessionManagement(
                         (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // REST API에서는 session이 생성되지 않도록
                 .csrf(CsrfConfigurer::disable) // csrf 검증에 대한것은 사용하지 않음
