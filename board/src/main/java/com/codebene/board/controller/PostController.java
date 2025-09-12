@@ -1,8 +1,8 @@
 package com.codebene.board.controller;
 
-import com.codebene.board.model.Post;
-import com.codebene.board.model.PostPatchRequestBody;
-import com.codebene.board.model.PostPostRequestBody;
+import com.codebene.board.model.post.Post;
+import com.codebene.board.model.post.PostPatchRequestBody;
+import com.codebene.board.model.post.PostPostRequestBody;
 import com.codebene.board.service.PostService;
 
 import lombok.extern.slf4j.Slf4j;

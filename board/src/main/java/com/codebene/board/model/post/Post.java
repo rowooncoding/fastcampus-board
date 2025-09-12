@@ -1,4 +1,4 @@
-package com.codebene.board.model;
+package com.codebene.board.model.post;
 
 import com.codebene.board.model.entity.PostEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;

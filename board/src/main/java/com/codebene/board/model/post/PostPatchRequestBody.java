@@ -1,4 +1,4 @@
-package com.codebene.board.model;
+package com.codebene.board.model.post;
 
 public record PostPatchRequestBody(String body) {
 }

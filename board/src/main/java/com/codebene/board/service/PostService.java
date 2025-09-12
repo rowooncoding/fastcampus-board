@@ -1,18 +1,14 @@
 package com.codebene.board.service;
 
 import com.codebene.board.exception.post.PostNotFoundException;
-import com.codebene.board.model.Post;
-import com.codebene.board.model.PostPatchRequestBody;
-import com.codebene.board.model.PostPostRequestBody;
+import com.codebene.board.model.post.Post;
+import com.codebene.board.model.post.PostPatchRequestBody;
+import com.codebene.board.model.post.PostPostRequestBody;
 import com.codebene.board.model.entity.PostEntity;
 import com.codebene.board.repository.PostEntityRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostService {
