@@ -47,7 +47,7 @@ public class WebConfiguration {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**")
+                        .requestMatchers(HttpMethod.POST, "/api/*/users/", "/api/*/users/authenticate")
                         .permitAll()
                         .anyRequest()
                         .authenticated()) // 로그인, 회원가입 창을 제외한 나머지 창에서는 인증/인가 사용

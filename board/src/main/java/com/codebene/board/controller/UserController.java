@@ -1,6 +1,8 @@
 package com.codebene.board.controller;
 
 import com.codebene.board.model.user.User;
+import com.codebene.board.model.user.UserAuthenticationResponse;
+import com.codebene.board.model.user.UserLoginRequestBody;
 import com.codebene.board.model.user.UserSignUpRequestBody;
 import com.codebene.board.service.UserService;
 import jakarta.validation.Valid;
@@ -27,5 +29,14 @@ public class UserController {
                 userSignUpRequestBody.password()
         );
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<UserAuthenticationResponse> authenticate(@Valid @RequestBody UserLoginRequestBody userLoginRequestBody) {
+        var response = userService.authenticate(
+                userLoginRequestBody.username(),
+                userLoginRequestBody.password()
+        );
+        return ResponseEntity.ok(response);
     }
 }
