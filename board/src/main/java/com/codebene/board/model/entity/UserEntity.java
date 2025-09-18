@@ -15,7 +15,10 @@ import java.util.List;
 import java.util.Random;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(
+        name = "\"user\"",
+        indexes = {@Index(name = "user_username_idx", columnList = "username", unique = true)}
+        )
 @Getter @Setter
 @SQLDelete(sql = "UPDATE \"user\" SET deleted_date_time = CURRENT_TIMESTAMP WHERE user_id = ?")
 @SQLRestriction("deleted_date_time IS NULL")

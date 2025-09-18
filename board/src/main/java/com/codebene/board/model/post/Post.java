@@ -1,6 +1,7 @@
 package com.codebene.board.model.post;
 
 import com.codebene.board.model.entity.PostEntity;
+import com.codebene.board.model.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.ZonedDateTime;
@@ -9,6 +10,7 @@ import java.time.ZonedDateTime;
 public record Post(
         Long postId,
         String body,
+        User user,
         ZonedDateTime createDateTime,
         ZonedDateTime updatedDateTime,
         ZonedDateTime deletedDateTime
@@ -17,6 +19,7 @@ public record Post(
         return new Post(
                 postEntity.getPostId(),
                 postEntity.getBody(),
+                User.from(postEntity.getUser()),
                 postEntity.getCreatedDateTime(),
                 postEntity.getUpdatedDateTime(),
                 postEntity.getDeletedDateTime()

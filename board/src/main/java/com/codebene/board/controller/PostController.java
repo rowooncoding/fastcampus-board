@@ -1,5 +1,6 @@
 package com.codebene.board.controller;
 
+import com.codebene.board.model.entity.UserEntity;
 import com.codebene.board.model.post.Post;
 import com.codebene.board.model.post.PostPatchRequestBody;
 import com.codebene.board.model.post.PostPostRequestBody;
@@ -7,6 +8,7 @@ import com.codebene.board.service.PostService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,28 +47,28 @@ public class PostController {
 
     // 게시물 생성
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody PostPostRequestBody postPostRequestBody) {
+    public ResponseEntity<Post> createPost(@RequestBody PostPostRequestBody postPostRequestBody, Authentication authentication) {
         log.info("POST /api/v1/posts");
 
-        var post = postService.createPost(postPostRequestBody);
+        var post = postService.createPost(postPostRequestBody, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.ok(post);
     }
 
     // 게시물 수정
     @PatchMapping("/{postId}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody PostPatchRequestBody postPatchRequestBody) {
+    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody PostPatchRequestBody postPatchRequestBody, Authentication authentication) {
         log.info("PATCH /api/v1/posts/{}", postId);
 
-        var post = postService.updatePost(postId, postPatchRequestBody);
+        var post = postService.updatePost(postId, postPatchRequestBody, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.ok(post);
     }
 
     // 게시물 삭제
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, Authentication authentication) {
         log.info("DELETE /api/v1/posts/{}", postId);
 
-        postService.deletePost(postId);
+        postService.deletePost(postId, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.noContent().build();
     }
 }
