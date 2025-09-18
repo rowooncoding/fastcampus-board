@@ -1,5 +1,7 @@
 package com.codebene.board.controller;
 
+import com.codebene.board.exception.user.UserPatchRequestBody;
+import com.codebene.board.model.entity.UserEntity;
 import com.codebene.board.model.user.User;
 import com.codebene.board.model.user.UserAuthenticationResponse;
 import com.codebene.board.model.user.UserLoginRequestBody;
@@ -7,6 +9,7 @@ import com.codebene.board.model.user.UserSignUpRequestBody;
 import com.codebene.board.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +32,17 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<User> getUser(@PathVariable String username) {
-        var user = userService.getUser(username);
+        User user = userService.getUser(username);
         return ResponseEntity.ok(user);
     }
+
+    @PatchMapping("/{username}")
+    public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody UserPatchRequestBody requestBody, Authentication authentication) {
+        var user = userService.updateUser(username, requestBody, (UserEntity) authentication.getPrincipal());
+        return ResponseEntity.ok(user);
+    }
+
+
 
     @PostMapping
     public ResponseEntity<User> signUp(@Valid @RequestBody UserSignUpRequestBody userSignUpRequestBody) {

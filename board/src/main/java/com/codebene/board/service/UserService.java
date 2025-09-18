@@ -1,7 +1,9 @@
 package com.codebene.board.service;
 
 import com.codebene.board.exception.user.UserAlreadyExistsException;
+import com.codebene.board.exception.user.UserNotAllowedException;
 import com.codebene.board.exception.user.UserNotFoundException;
+import com.codebene.board.exception.user.UserPatchRequestBody;
 import com.codebene.board.model.entity.UserEntity;
 import com.codebene.board.model.user.User;
 import com.codebene.board.model.user.UserAuthenticationResponse;
@@ -76,5 +78,21 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserNotFoundException(username));
 
         return User.from(userEntity);
+    }
+
+    public User updateUser(String username, UserPatchRequestBody userPatchrequestBody, UserEntity currentUser) {
+        UserEntity userEntity = userEntityRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        if (!userEntity.equals(currentUser)) {
+            throw new UserNotAllowedException();
+        }
+
+        if (userPatchrequestBody.description() != null) {
+            userEntity.setDescription(userPatchrequestBody.description());
+        }
+
+        return User.from(userEntityRepository.save(userEntity));
     }
 }
