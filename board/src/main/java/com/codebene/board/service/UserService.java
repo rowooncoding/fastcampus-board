@@ -68,4 +68,13 @@ public class UserService implements UserDetailsService {
 
         return userEntities.stream().map(User::from).toList();
     }
+
+
+    public User getUser(String username) {
+        UserEntity userEntity = userEntityRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        return User.from(userEntity);
+    }
 }

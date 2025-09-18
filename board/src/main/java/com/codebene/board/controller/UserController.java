@@ -23,8 +23,14 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String query) {
-        var users = userService.getUsers(query);
+        List<User> users = userService.getUsers(query);
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
+        var user = userService.getUser(username);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
