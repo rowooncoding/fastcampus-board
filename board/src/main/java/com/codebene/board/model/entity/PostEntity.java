@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(
         name = "post",
-        indexes = {@Index(name = "post_userid_idx", columnList = "userid")}
+        indexes = {@Index(name = "post_userid_idx", columnList = "user_id")}
         )
 @Getter @Setter
 @SQLDelete(sql = "UPDATE post SET deleted_date_time = CURRENT_TIMESTAMP WHERE post_id = ?")

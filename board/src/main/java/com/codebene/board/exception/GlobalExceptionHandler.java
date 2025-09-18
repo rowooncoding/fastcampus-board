@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ClientErrorResponse(HttpStatus.BAD_REQUEST, errorMessage), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ClientErrorResponse> handleRuntimeException(RuntimeException e) {
         return ResponseEntity.internalServerError().build();
     }
