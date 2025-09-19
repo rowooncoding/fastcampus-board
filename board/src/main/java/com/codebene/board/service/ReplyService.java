@@ -17,6 +17,7 @@ import com.codebene.board.repository.PostEntityRepository;
 import com.codebene.board.repository.ReplyEntityRepository;
 import com.codebene.board.repository.UserEntityRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class ReplyService {
         return replyEntities.stream().map(Reply::from).toList();
     }
 
+    @Transactional
     public Reply createReply(Long postId, ReplyPostRequestBody replyPostRequestBody, UserEntity currentUser) {
         PostEntity postEntity = postEntityRepository
                 .findById(postId)
@@ -54,7 +56,11 @@ public class ReplyService {
                         () -> new PostNotFoundException(postId)
                 );
 
-        ReplyEntity replyEntity = replyEntityRepository.save(ReplyEntity.of(replyPostRequestBody.body(), currentUser, postEntity));
+        ReplyEntity replyEntity = replyEntityRepository.save(
+                ReplyEntity.of(replyPostRequestBody.body(), currentUser, postEntity)
+        );
+
+        postEntity.setRepliesCount(postEntity.getRepliesCount() + 1);
 
         return Reply.from(replyEntity);
     }
@@ -72,7 +78,14 @@ public class ReplyService {
         return Reply.from(replyEntityRepository.save(replyEntity));
     }
 
+    @Transactional
     public void deleteReply(Long postId, Long replyId, UserEntity currentUser) {
+        PostEntity postEntity = postEntityRepository
+                .findById(postId)
+                .orElseThrow(
+                        () -> new PostNotFoundException(postId)
+                );
+
         ReplyEntity replyEntity = replyEntityRepository
                 .findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException(replyId));
@@ -82,5 +95,8 @@ public class ReplyService {
         }
 
         replyEntityRepository.delete(replyEntity);
+
+        postEntity.setRepliesCount(Math.max(0, postEntity.getRepliesCount() - 1));
+        postEntityRepository.save(postEntity);
     }
 }
