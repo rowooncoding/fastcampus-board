@@ -71,5 +71,11 @@ public class PostController {
         postService.deletePost(postId, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{postId}/likes")
+    public ResponseEntity<Post> toggleLike(@PathVariable Long postId, Authentication authentication) {
+        var post = postService.toggleLike(postId, (UserEntity) authentication.getPrincipal());
+        return ResponseEntity.ok(post);
+    }
 }
 

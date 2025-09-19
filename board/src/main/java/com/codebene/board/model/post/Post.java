@@ -11,6 +11,7 @@ public record Post(
         Long postId,
         String body,
         Long repliesCount,
+        Long likesCount,
         User user,
         ZonedDateTime createDateTime,
         ZonedDateTime updatedDateTime,
@@ -21,7 +22,8 @@ public record Post(
                 postEntity.getPostId(),
                 postEntity.getBody(),
                 postEntity.getRepliesCount(),
-                User.from(postEntity.getUser()),
+                postEntity.getLikesCount(),
+                com.codebene.board.model.user.User.from(postEntity.getUser()),
                 postEntity.getCreatedDateTime(),
                 postEntity.getUpdatedDateTime(),
                 postEntity.getDeletedDateTime()
