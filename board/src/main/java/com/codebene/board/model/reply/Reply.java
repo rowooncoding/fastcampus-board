@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record Reply(
-        Long postId,
+        Long replyId,
         String body,
         User user,
         Post post,
